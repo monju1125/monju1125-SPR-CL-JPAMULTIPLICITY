@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * In this class, you will complete the code necessary to retrieve and manipulate entities related to the Student
@@ -57,6 +58,14 @@ public class StudentService {
      * @param classroom a persisted, existing classroom passed into this method
      */
     public void assignClassroomToStudent(long studentId, Classroom classroom){
+        
+        Optional<Student> studeOptional = studentRepository.findById(studentId);
+
+        if (studeOptional.isPresent()) {
+            Student student = studeOptional.get();
+            student.setClassroom(classroom);
+            studentRepository.save(student);
+        }
 
     }
 
@@ -67,6 +76,14 @@ public class StudentService {
      * @return the Classroom of the student
      */
     public Classroom getClassroomOfStudent(long studentId){
+
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+            return student.getClassroom();
+        }
+
         return null;
     }
 
@@ -77,6 +94,14 @@ public class StudentService {
      * @param studentId Id of a persisted, existing student entity
      */
     public void unassignClassroomOfStudent(long studentId){
+
+        Optional<Student> studeOptional = studentRepository.findById(studentId);
+
+        if (studeOptional.isPresent()) {
+            Student student = studeOptional.get();
+            student.setClassroom(null);
+            studentRepository.save(student);
+        }
 
     }
 }
